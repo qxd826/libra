@@ -1,0 +1,15 @@
+1.pom里 指定 mainclass 为com.qxd.libra.App
+-jar命令默认执行设置的mainclass。如果不指定,则会提示找不到配置
+java -jar libra-1.0.0-jar-with-dependencies.jar "test";
+返回 false
+
+java -jar libra-1.0.0-jar-with-dependencies.jar "一一";
+返回 true
+
+2.pom里不指定 mainclass
+-cp <目录和 zip/jar 文件的类搜索路径>
+java -cp libra-1.0.0-jar-with-dependencies.jar com.qxd.libra.AppTest "test"
+返回 false
+
+java -cp libra-1.0.0-jar-with-dependencies.jar com.qxd.libra.AppTest "一一"
+返回 true

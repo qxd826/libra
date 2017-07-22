@@ -1,25 +1,90 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.qxd.libra</groupId>
-  <artifactId>libra</artifactId>
-  <version>1.0.0</version>
-  <packaging>jar</packaging>
+    <groupId>com.qxd.libra</groupId>
+    <artifactId>libra</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
 
-  <name>libra</name>
-  <url>http://maven.apache.org</url>
+    <name>libra</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <!--指定maven仓库,可以配置在setting.xml,不在此处配置-->
+    <repositories>
+        <repository>
+            <id>qxd-maven-public</id>
+            <url>http://116.62.62.121:8081/repository/qxd.com</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <qxd.core.version>1.0.0-SNAPSHOT</qxd.core.version>
+    </properties>
+    <build>
+        <plugins>
+            <!--设置java编译版本号,在ide里不需要设置,貌似会默认使用ide默认的,项目配置优先于ide-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!--将依赖的包打进jar包 以jar-with-dependencies结尾-->
+            <!--mvn 命令 mvn clean -Dmaven.test.skip=true package-->
+            <!--maven-assembly-plugin主要用来打包可以执行的jar-->
+            <!--一般指定mainClass,作为可执行jar包的入口-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!--表示在package阶段执行该插件的single命令-->
+                        <!--goals:里面列出一系列的goals元素,例如single-->
+                        <!--phase:声明goals执行的时期,例如:package-->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!--可以指定mainClass,也可以不指定,mainClass信息存储在 META-INF/MANIFEST.MF,执行命令见doc/项目说明-->
+                            <mainClass>com.qxd.libra.App</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.qxd.core</groupId>
+            <artifactId>core</artifactId>
+            <version>${qxd.core.version}</version>
+        </dependency>
+    </dependencies>
 </project>
