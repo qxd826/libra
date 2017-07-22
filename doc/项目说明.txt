@@ -1,12 +1,17 @@
-1.pom里 指定 mainclass 为com.qxd.libra.App
--jar命令默认执行设置的mainclass。如果不指定,则会提示找不到配置
+1.项目说明
+该项目是 jar包项目,主要用于测试打包可执行jar包的测试
+
+
+2.运行说明
+2.1 pom里 指定 mainClass 为com.qxd.libra.App
+-jar命令默认执行设置的mainClass。如果不指定,则会提示找不到配置
 java -jar libra-1.0.0-jar-with-dependencies.jar "test";
 返回 false
 
 java -jar libra-1.0.0-jar-with-dependencies.jar "一一";
 返回 true
 
-2.pom里不指定 mainclass
+2.2 pom里不指定 mainClass
 -cp <目录和 zip/jar 文件的类搜索路径>
 java -cp libra-1.0.0-jar-with-dependencies.jar com.qxd.libra.AppTest "test"
 返回 false
